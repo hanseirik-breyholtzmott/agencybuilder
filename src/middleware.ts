@@ -16,7 +16,7 @@ const isProtectedRoute = createRouteMatcher([
   '/subaccount(.*)',
 ]);
 
-const isPublicRoute = createRouteMatcher(['/sign-in', '/sign-up', '/site', '/api/uploadthing']);
+const isPublicRoute = createRouteMatcher(['/sign-in', '/sign-up', '/site', '/api/uploadthing', '/', '/agency/sign-in', '/agency/sign-up']);
 
 export default clerkMiddleware((auth, req) => {
   const url = req.nextUrl;
@@ -38,9 +38,11 @@ export default clerkMiddleware((auth, req) => {
     );
   }
 
+  
   if (!isPublicRoute(req)) {
     auth().protect();
   }
+  
 
   if (url.pathname === '/sign-in' || url.pathname === '/sign-up') {
     return NextResponse.redirect(new URL(`/agency/sign-in`, req.url));
